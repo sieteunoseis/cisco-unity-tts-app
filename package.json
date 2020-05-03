@@ -1,0 +1,46 @@
+{
+  "name": "cisco-unity-react-app",
+  "version": "1.0.0",
+  "description": "A Cisco Unity TTS application with a Node Express Backend",
+  "author": {
+    "name": "Jeremy Worden",
+    "twitter": "@sieteunoseis",
+    "url": "https://automate.builders"
+  },
+  "license": "MIT",
+  "scripts": {
+    "client": "cd client && yarn start",
+    "server": "nodemon --signal SIGHUP server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "dev:server": "cd client && yarn build && cd .. && yarn start",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^2.3.0",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "ngrok": "^3.2.7",
+    "opn": "^6.0.0",
+    "twilio": "^3.42.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/esausilva/example-create-react-app-express.git"
+  },
+  "bugs": {
+    "url": "https://github.com/esausilva/example-create-react-app-express/issues"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "create-react-app",
+    "cisco",
+    "unity connections",
+    "google",
+    "ngrok"
+  ]
+}
