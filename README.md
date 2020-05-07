@@ -46,6 +46,10 @@ Visit my [blog post](https://medium.freecodecamp.org/how-to-make-create-react-ap
 
 [Deployed app](https://cra-express.herokuapp.com/)
 
+## Openconnect
+
+chmod +x openconnect.sh
+
 ## Giving Back
 
 If you would like to support my work and the time I put in creating the code, you can click the image below to get me a coffee. I would really appreciate it (but is not required).
