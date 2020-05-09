@@ -1,17 +1,19 @@
 {
-  "name": "cisco-unity-react-app",
-  "version": "0.1.0",
-  "homepage":".",
+  "name": "cisco-unity-tts-app",
+  "version": "1.0.0",
+  "description": "Cisco Unity Call Handler TTS",
+  "author": "Jeremy Worden <jeremy@automate.builders>",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "^4.4.1",
-    "jquery": "^3.5.0",
-    "popper.js": "^1.16.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
-    "react-select": "^3.1.0",
-    "reactstrap": "^8.4.1"
+    "@fortawesome/fontawesome-pro": "^5.13.0",
+    "google-map-react": "^1.0.6",
+    "mdbreact": "*",
+    "react": "*",
+    "react-dom": "^16.7.0",
+    "react-helmet": "^6.0.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.1",
+    "react-select": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

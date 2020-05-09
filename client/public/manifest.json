@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Cisco Unity TTS",
+  "name": "Cisco Unity text to speech via Google Cloud",
   "icons": [
     {
       "src": "favicon.ico",
