@@ -2,12 +2,6 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const axios = require("axios");
 
-let source = axios.CancelToken.source();
-setTimeout(() => {
-  source.cancel();
-  // Timeout Logic
-}, 180000);
-
 module.exports = {
   fetchRest: function (server, user, pass, method, contentType, url, data) {
     const token = Buffer.from(`${user}:${pass}`, "utf8").toString("base64");
@@ -21,8 +15,7 @@ module.exports = {
         Authorization: `Basic ${token}`,
       },
       ...(data ? { data: data } : {}),
-      url: url,
-      cancelToken: source.token,
+      url: url
     };
 
     return new Promise(function (resolve, reject) {
