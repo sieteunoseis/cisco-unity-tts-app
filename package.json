@@ -13,7 +13,7 @@
     "server": "nodemon --signal SIGHUP server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "dev:server": "cd client && yarn build && cd .. && yarn start",
-    "start": "NODE_ENV=production pm2 start --name cisco-unity-tts server.js"
+    "start": "NODE_ENV=production pm2 start --name cisco-unity-tts server.js --watch"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^2.3.0",
