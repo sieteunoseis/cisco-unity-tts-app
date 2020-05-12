@@ -5,21 +5,21 @@
 prog_name=$(basename $0)
 
 # CHANGE YOUR_VPN_SERVER_DOMAIN to the VPN server you know like example.com
-domain=                      
+domain=devnetsandbox-us-sjc.cisco.com
 
 function help {
-        echo "Usage: $prog_name [-c server] [-d]"
+        echo "Usage: $prog_name [-c] [-p] [-d]"
         echo
         echo "Options"
-        echo "    -c, --connect <subdomain>  Connect to the specified VPN server (subdomain.domain)"
+        echo "    -c, --connect <port>       Connect to the specified VPN server over port"
         echo "    -d, --disconnect           Disconnect the running VPN"
         echo
 }
 
 function connect {
-        server=$1.$domain
+        server=$domain:$1
         echo "Connecting to $server..."
-        sudo openconnect -b $server < ~/Documents/vpnmakers.txt
+        sudo openconnect -b $server < vpnmakers.txt
 }
 
 function disconnect {
