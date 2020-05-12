@@ -50,6 +50,14 @@ Note: Deployed app may not always be live
 
 ## Openconnect
 
+I'm using a droplet on [DigitalOcean](https://www.digitalocean.com/) to connect to Cisco's DevNet sandbox. I wrote a script that uses openconnect to create a vpn tunnel to the sandbox. You'll need to edit the text file vpnmaker.txt with your creds.
+
+To run:
+./openconnect -c 20160
+
+To disconnect:
+./openconnect -d
+
 chmod +x openconnect.sh
 
 ## Giving Back
