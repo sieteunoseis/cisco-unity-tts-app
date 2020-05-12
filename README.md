@@ -1,6 +1,6 @@
-# create-react-app React Project with Node Express Backend
+# Unity Text to Speech React Project with Node Express Backend
 
-> Example on using create-react-app with a Node Express Backend
+> App to update Cisco Unity Call Handler's using Google's Cloud Text to Speech
 
 ## Usage
 
@@ -42,9 +42,11 @@ This tells Webpack development server to proxy our API requests to our API serve
 
 ## Tutorial
 
-Visit my [blog post](https://medium.freecodecamp.org/how-to-make-create-react-app-work-with-a-node-backend-api-7c5c48acb1b0) entry for a detailed step-by-step guide.
+Visit my [blog post](https://medium.com/@jeremyworden/using-apis-to-automate-cisco-s-unity-connection-call-handlers-9ad71b1d973f) entry for a detailed step-by-step guide.
 
-[Deployed app](https://cra-express.herokuapp.com/)
+[Deployed app](http://ocean.automate.builders/)
+
+Note: Deployed app may not always be live
 
 ## Openconnect
 

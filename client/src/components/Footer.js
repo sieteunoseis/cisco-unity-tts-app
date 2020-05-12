@@ -10,14 +10,14 @@ const Footer = () => {
                 <hr className="my4"/>
             </div>
             <div className="pb-4">
-                <a href="https://twitter.com/SieteUnoSeis" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="facebook" className="mr-3" /></a>
-                <MDBIcon fab icon="twitter" className="mr-3"/>
-                <MDBIcon fab icon="youtube" className="mr-3"/>
-                <MDBIcon fab icon="google-plus" className="mr-3"/>
-                <MDBIcon fab icon="dribbble" className="mr-3"/>
-                <MDBIcon fab icon="pinterest" className="mr-3"/>
-                <MDBIcon fab icon="github" className="mr-3"/>
-                <MDBIcon fab icon="codepen" className="mr-3"/>
+                <a href="https://www.facebook.com/jeremy.worden/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="facebook" className="mr-3" /></a>
+                <a href="https://twitter.com/SieteUnoSeis" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="twitter" className="mr-3"/></a>
+                <a href="https://www.youtube.com/JeremyWorden" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="youtube" className="mr-3"/></a>
+                <a href="https://www.linkedin.com/in/jeremyworden/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="linkedin" className="mr-3"/></a>
+                <a href="https://www.instagram.com/sieteunoseis/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="instagram" className="mr-3"/></a>
+                <a href="https://www.buymeacoffee.com/automatebldrs" rel="noopener noreferrer" target="_blank"><MDBIcon far icon="coffee-togo" className="mr-3"/></a>
+                <a href="https://github.com/sieteunoseis/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="github" className="mr-3"/></a>
+                <a href="https://www.patreon.com/join/sieteunoseis/checkout" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="patreon" className="mr-3"/></a>
             </div>
             <p className="footer-copyright mb-0 py-3 text-center">
                 &copy; {new Date().getFullYear()} Copyright: <a href="https://automate.builders"> automate.builders </a>

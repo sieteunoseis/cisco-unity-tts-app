@@ -204,15 +204,15 @@ if (process.env.NODE_ENV === "production") {
     await ngrok.connect({
       proto: "http", // http|tcp|tls, defaults to http
       addr: port, // port or network address, defaults to 80
-      subdomain: "automate.builders", // reserved tunnel name
-      authtoken: "7f71vJpNdmJszQQQYVQLt_7Kctcy12W4Td2AmwELYF1", // your authtoken from ngrok.com
+      subdomain: process.env.NGROK_SUBDOMAIN, // reserved tunnel name
+      authtoken: process.env.NGROK_AUTH_TOKEN, // your authtoken from ngrok.com
       region: "us", // one of ngrok regions (us, eu, au, ap), defaults to us
       onStatusChange: (status) => {}, // 'closed' - connection is lost, 'connected' - reconnected
       onLogEvent: (data) => {}, // returns stdout messages from ngrok process
     });
   })();
 
-  // opn("http://127.0.0.1:4040/status");
+  opn("http://127.0.0.1:4040/status");
 }
 
 http.createServer(app).listen(port, () => {

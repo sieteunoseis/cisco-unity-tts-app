@@ -1,6 +1,6 @@
 {
   "name": "cisco-unity-react-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Cisco Unity TTS application with a Node Express Backend",
   "author": {
     "name": "Jeremy Worden",
@@ -25,14 +25,15 @@
     "twilio": "^3.42.2"
   },
   "devDependencies": {
-    "concurrently": "^5.1.0"
+    "concurrently": "^5.1.0",
+    "dotenv": "^8.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/esausilva/example-create-react-app-express.git"
+    "url": "https://github.com/sieteunoseis/cisco-unity-tts-app.git"
   },
   "bugs": {
-    "url": "https://github.com/esausilva/example-create-react-app-express/issues"
+    "url": "https://github.com/sieteunoseis/cisco-unity-tts-app/issues"
   },
   "keywords": [
     "node",
