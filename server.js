@@ -20,13 +20,6 @@ const settings = {
   greetingName: "Opening Greeting",
 };
 
-let source = axios.CancelToken.source();
-
-setTimeout(() => {
-  source.cancel();
-  // Timeout Logic
-}, 20000);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -69,65 +62,40 @@ app.get("/api/test", (req, res) => {
 
 // API Call to Unity Backend to get Call Handlers for user to select from
 app.get("/api/callhandler/get", (req, res) => {
-  
-  // Let's do a quick check that CUPI is up with a 10 second timeout
-  const token = Buffer.from(`${settings.cucuser}:${settings.cucpass}`, "utf8").toString("base64");
-  const options = {
-    baseURL: `https:\\\\${settings.cucip}`,
-    method: 'get',
-    withCredentials: true,
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: `Basic ${token}`,
-    },
-    url: '/vmrest/version',
-    cancelToken: source.token,
-  };
-  
-  const vmRes = axios(options);
-  
-  vmRes.then(function () {
-    // Get Call Handler by name
-    restModule
-      .fetchRest(
-        settings.cucip,
-        settings.cucuser,
-        settings.cucpass,
-        "get",
-        "application/json",
-        "/vmrest/handlers/callhandlers"
-      )
-      .catch((err) => {
-        res
-          .status(404) // HTTP status 404: NotFound
-          .send("Not found");
-      })
-      .then(function (result) {
-        if (result) {
-          let returnNames = result["Callhandler"]
-            .filter(function (handler) {
-              return handler.IsPrimary == "false";
-            })
-            .map(function (names) {
-              return names.DisplayName;
-            });
-          let namesFromAPI = returnNames.map((name) => {
-            return {
-              label: name,
-              value: name.toLowerCase().replace(/\W/g, ""),
-              status: "existing",
-            };
-          });
-          res.send(namesFromAPI);
-        }
-      });
-  }).catch((err) => {
+  // Get Call Handler by name
+  restModule
+  .fetchRest(
+    settings.cucip,
+    settings.cucuser,
+    settings.cucpass,
+    "get",
+    "application/json",
+    "/vmrest/handlers/callhandlers"
+  )
+  .catch((err) => {
     res
       .status(404) // HTTP status 404: NotFound
       .send("Not found");
   })
-  
+  .then(function (result) {
+    if (result) {
+      let returnNames = result["Callhandler"]
+        .filter(function (handler) {
+          return handler.IsPrimary == "false";
+        })
+        .map(function (names) {
+          return names.DisplayName;
+        });
+      let namesFromAPI = returnNames.map((name) => {
+        return {
+          label: name,
+          value: name.toLowerCase().replace(/\W/g, ""),
+          status: "existing",
+        };
+      });
+      res.send(namesFromAPI);
+    }
+  });
 });
 
 // API Call to update call handler from values
