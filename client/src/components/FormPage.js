@@ -67,7 +67,7 @@ export default class Form extends Component {
   getTitle = (props) => {
     const isLoggedIn = props.isLoggedIn;
     if (isLoggedIn) {
-      return "Hello!";
+      return "Hello! Please select a Call Handler to update.";
     } else {
       return "Error retrieving data from Cisco Unity Connections!";
     }
