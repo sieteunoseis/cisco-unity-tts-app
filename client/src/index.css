@@ -197,6 +197,7 @@ main {
 @media (min-width: 768px){
   .container, .container-md, .container-sm {
     max-width: max-content;
+    overflow-x: hidden;
   }
 }
 
@@ -211,6 +212,7 @@ main {
 
   .container, .container-md, .container-sm {
     max-width: max-content;
+    overflow-x: hidden;
   }
 }
 
