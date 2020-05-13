@@ -28,7 +28,7 @@ var weatherID = "";
 // Check the weather and update Call Handler if there is a new alert. Runs every 15 mins.
 setInterval(function () {
   axios({
-    url: "https://api.weather.gov/alerts/active/zone/NCZ507",
+    url: "https://api.weather.gov/alerts/active/zone/TXC469",
     method: "get",
   }).then(function (results) {
     if (results.data.features.length > 0) {
