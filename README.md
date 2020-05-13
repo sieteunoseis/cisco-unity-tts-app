@@ -62,6 +62,14 @@ This tells Webpack development server to proxy our API requests to our API serve
 5. Download [key](https://console.cloud.google.com/iam-admin/serviceaccounts). Select Project created in step 1, then Actions > Create Key. 
 6. Using service account key, create enviromental variable. export GOOGLE_APPLICATION_CREDENTIALS="[PATH]/[FILE_NAME].json"
 
+## Ngrok
+
+Optional ngrok settings
+
+export NGROK_SUBDOMAIN='insert subdomain'
+export NGROK_AUTH_TOKEN='insert authtoken from ngrok.com'
+
+View status at: http://localhost:4040/status
 
 ## Openconnect
 
