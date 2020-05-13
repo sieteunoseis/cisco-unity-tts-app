@@ -1,6 +1,6 @@
 # Unity Text to Speech React Project with Node Express Backend
 
-> App to update Cisco Unity Call Handler's using Google's Cloud Text to Speech
+> NodeJS project to update Cisco Unity Call Handler's using Google's Cloud Text to Speech via Ngrok and Twilio
 
 ## Usage
 
@@ -17,6 +17,7 @@ yarn
 cd client
 yarn
 ```
+
 ### Development Mode
 
 To start the server and client at the same time (from the root of the project).
@@ -55,14 +56,14 @@ Visit my [blog post](https://medium.com/@jeremyworden/using-apis-to-automate-cis
 I'm using a droplet on [DigitalOcean](https://www.digitalocean.com/) to connect to Cisco's DevNet sandbox. I wrote a script that uses openconnect to create a vpn tunnel to the sandbox. You'll need to edit the text file vpnmaker.txt with your creds.
 
 ```
+Permissions:
+chmod +x openconnect.sh
+
 To run:
 ./openconnect -c 20160
 
 To disconnect:
 ./openconnect -d
-
-Permissions:
-chmod +x openconnect.sh
 ```
 
 ## Giving Back
