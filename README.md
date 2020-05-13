@@ -2,6 +2,8 @@
 
 > NodeJS project to update Cisco Unity Call Handler's using Google's Cloud Text to Speech via Ngrok and Twilio
 
+![](https://github.com/sieteunoseis/cisco-unity-tts-app/blob/master/client/src/assets/cover-1.png)
+
 ## Usage
 
 Install [nodemon](https://github.com/remy/nodemon) globally
