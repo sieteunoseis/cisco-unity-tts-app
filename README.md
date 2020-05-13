@@ -18,11 +18,14 @@ cd client
 yarn
 ```
 
-To start the server and client at the same time (from the root of the project)
-
+To start the server and client at the same time (from the root of the project).
 ```
 yarn dev
 ```
+
+In development mode a Ngrok tunnel will also be created to aid in development. Status of the tunnel can be view at:
+
+http://localhost:4040/status
 
 Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000
 
