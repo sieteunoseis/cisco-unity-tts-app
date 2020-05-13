@@ -53,6 +53,8 @@ The key to using an Express backend with a project created with `create-react-ap
 "proxy": "http://localhost:5000/"
 ```
 
+[Sample NGINX config](https://github.com/sieteunoseis/cisco-unity-tts-app/blob/master/nginx-sample.txt)
+
 This tells Webpack development server to proxy our API requests to our API server, given that our Express server is running on **localhost:5000**
 
 ## Google Cloud Text to Speech
