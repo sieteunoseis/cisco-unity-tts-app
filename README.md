@@ -58,7 +58,9 @@ This tells Webpack development server to proxy our API requests to our API serve
 1. Create a project (or use an existing one) in the [Cloud Console](https://console.cloud.google.com/).
 2. Make sure that [billing](https://console.cloud.google.com/billing?project=_) is enabled for your project.
 3. Enable the [Text-to-Speech API](https://console.cloud.google.com/flows/enableapi?apiid=texttospeech.googleapis.com).
-4. Create an [API key](https://console.cloud.google.com/apis/credentials?project=_).
+4. Create a [Service Account](https://console.cloud.google.com/apis/credentials?project=_).
+5. Download [key](https://console.cloud.google.com/iam-admin/serviceaccounts). Select Project created in step 1, then Actions > Create Key. 
+6. Using service account key, create enviromental variable. export GOOGLE_APPLICATION_CREDENTIALS="[PATH]/[FILE_NAME].json"
 
 
 ## Openconnect
