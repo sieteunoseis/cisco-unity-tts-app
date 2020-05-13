@@ -17,6 +17,7 @@ yarn
 cd client
 yarn
 ```
+### Development Mode
 
 To start the server and client at the same time (from the root of the project).
 ```
@@ -27,6 +28,8 @@ In development mode a Ngrok tunnel will also be created to aid in development. S
 
 http://localhost:4040/status
 
+### Production Mode
+
 Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000
 
 ```
@@ -35,7 +38,7 @@ NODE_ENV=production yarn dev:server
 
 ## How this works
 
-The key to use an Express backend with a project created with `create-react-app` is on using a **proxy**. We have a _proxy_ entry in `client/package.json`
+The key to using an Express backend with a project created with `create-react-app` is on using a **proxy**. We have a _proxy_ entry in `client/package.json`. You may need to update this depending on your enviroment.
 
 ```
 "proxy": "http://localhost:5000/"
@@ -43,13 +46,9 @@ The key to use an Express backend with a project created with `create-react-app`
 
 This tells Webpack development server to proxy our API requests to our API server, given that our Express server is running on **localhost:5000**
 
-## Tutorial
+## Blog
 
-Visit my [blog post](https://medium.com/@jeremyworden/using-apis-to-automate-cisco-s-unity-connection-call-handlers-9ad71b1d973f) entry for a detailed step-by-step guide.
-
-[Deployed app](http://ocean.automate.builders/)
-
-Note: Deployed app may not always be live
+Visit my [blog post](https://medium.com/@jeremyworden/using-apis-to-automate-cisco-s-unity-connection-call-handlers-9ad71b1d973f) entry for write up on application.
 
 ## Openconnect
 
