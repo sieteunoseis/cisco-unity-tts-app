@@ -43,7 +43,7 @@ setInterval(function () {
           results.data.features[0].properties.headline
         )
           .then(function (response) {
-            console.log(response);
+            console.log("Updated weather alert.");
           })
           .catch(function (error) {
             console.log("Failed!", error);
