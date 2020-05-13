@@ -10,6 +10,12 @@ Install [nodemon](https://github.com/remy/nodemon) globally
 npm i nodemon -g
 ```
 
+Install [pm2](https://www.npmjs.com/package/pm2) globally
+
+```
+sudo npm install pm2@latest -g
+```
+
 Install server and client dependencies
 
 ```
@@ -31,7 +37,7 @@ http://localhost:4040/status
 
 ### Production Mode
 
-Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000
+Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000. Note: PM2 needs to be installed.
 
 ```
 NODE_ENV=production yarn dev:server
@@ -47,9 +53,13 @@ The key to using an Express backend with a project created with `create-react-ap
 
 This tells Webpack development server to proxy our API requests to our API server, given that our Express server is running on **localhost:5000**
 
-## Blog
+## Google Cloud Text to Speech
 
-Visit my [blog post](https://medium.com/@jeremyworden/using-apis-to-automate-cisco-s-unity-connection-call-handlers-9ad71b1d973f) entry for write up on application.
+1. Create a project (or use an existing one) in the [Cloud Console](https://console.cloud.google.com/).
+2. Make sure that [billing](https://console.cloud.google.com/billing?project=_) is enabled for your project.
+3. Enable the [Text-to-Speech API](https://console.cloud.google.com/flows/enableapi?apiid=texttospeech.googleapis.com).
+4. Create an [API key](https://console.cloud.google.com/apis/credentials?project=_).
+
 
 ## Openconnect
 
@@ -65,6 +75,10 @@ To run:
 To disconnect:
 ./openconnect -d
 ```
+
+## Blog
+
+Visit my [blog post](https://medium.com/@jeremyworden/using-apis-to-automate-cisco-s-unity-connection-call-handlers-9ad71b1d973f) entry for write up on application.
 
 ## Giving Back
 
