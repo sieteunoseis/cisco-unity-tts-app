@@ -1,3 +1,5 @@
+require("dotenv").config();
+// Import other required libraries
 const http = require("http");
 const express = require("express");
 const restModule = require("./cupiRest.js");
@@ -13,9 +15,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const settings = {
-  cucip: "10.10.20.18",
-  cucuser: "administrator",
-  cucpass: "ciscopsdt",
+  cucip: process.env.IP || "10.10.20.18",
+  cucuser: process.env.USERNAME || "administrator",
+  cucpass: process.env.PASSWORD || "ciscopsdt",
   greetingType: "Alternate",
   greetingName: "Opening Greeting",
 };
