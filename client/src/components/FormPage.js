@@ -26,12 +26,17 @@ const defaultOptions = [
   createOption("Holiday", "existing"),
 ];
 
+const voiceOptions = [
+  createOption("Male", "en-US-Wavenet-D"),
+  createOption("Female", "en-US-Wavenet-H"),
+];
+
 export default class Form extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   state = {
     isLoading: false,
     options: defaultOptions,
@@ -41,7 +46,9 @@ export default class Form extends Component {
     chOptions: "",
     chValue: "",
     gOptions: defaultOptions,
+    vOptions: voiceOptions,
     gValue: "",
+    vValue: "",
     textValue: "",
   };
 
@@ -59,7 +66,7 @@ export default class Form extends Component {
         console.log(err);
         this.setState({
           isLoggedIn: false,
-          isLoading: true
+          isLoading: true,
         });
       });
   }
@@ -95,17 +102,22 @@ export default class Form extends Component {
   };
 
   handleTextBoxChange = (event) => {
-    this.setState({textValue: event.target.value});
-  }
+    this.setState({ textValue: event.target.value });
+  };
 
   async handleSubmit(event) {
     event.preventDefault();
-    const response = await fetch('/api/callhandler/create', {
-      method: 'POST',
+    const response = await fetch("/api/callhandler/create", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ callhandler: this.state.chValue, greeting: this.state.gValue, text: this.state.textValue }),
+      body: JSON.stringify({
+        callhandler: this.state.chValue,
+        greeting: this.state.gValue,
+        voice: this.state.vValue,
+        text: this.state.textValue,
+      }),
     });
     const body = await response.text();
 
@@ -116,7 +128,7 @@ export default class Form extends Component {
     this.setState({ isLoading: true });
     setTimeout(() => {
       const { chOptions } = this.state;
-      const newOption = createOption(inputValue,'new');
+      const newOption = createOption(inputValue, "new");
       this.setState({
         isLoading: false,
         chOptions: [...chOptions, newOption],
@@ -126,21 +138,15 @@ export default class Form extends Component {
   };
 
   render() {
-    const {
-      isLoggedIn,
-      isLoading,
-      chOptions,
-      chValue,
-      gOptions,
-      gValue,
-    } = this.state;
+    const { isLoggedIn, isLoading, chOptions, chValue, gOptions, gValue, vOptions, vValue} =
+      this.state;
     return (
       <React.Fragment>
         <MDBRow className="justify-content-center pt-4">
           <MDBCol md="6">
             <MDBCard>
               <MDBCardBody>
-                <form onSubmit={this.handleSubmit}> 
+                <form onSubmit={this.handleSubmit}>
                   <p className="h4 text-center py-4">
                     <this.getTitle isLoggedIn={isLoggedIn} />
                   </p>
@@ -172,6 +178,9 @@ export default class Form extends Component {
                     name="gValue"
                   />
                   <br />
+                  <label className="grey-text font-weight-light">
+                    Type message
+                  </label>
                   <div className="input-group">
                     <div className="input-group-prepend">
                       <span className="input-group-text" id="basic-addon">
@@ -185,6 +194,20 @@ export default class Form extends Component {
                       onChange={this.handleTextBoxChange}
                     ></textarea>
                   </div>
+                  <br />
+                  <label className="grey-text font-weight-light">
+                    Select Voice
+                  </label>
+                  <Select
+                    isClearable
+                    isDisabled={isLoading}
+                    isLoading={isLoading}
+                    onChange={this.handleChange}
+                    options={vOptions}
+                    value={vValue}
+                    name="vValue"
+                  />
+                  <br />
                   <div className="text-center py-4 mt-3">
                     <MDBBtn className="btn btn-outline-purple" type="submit">
                       Send

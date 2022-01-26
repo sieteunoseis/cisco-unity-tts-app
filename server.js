@@ -42,7 +42,8 @@ setInterval(function () {
         cupiUpdate(
           "Weather",
           "Standard",
-          results.data.features[0].properties.headline
+          results.data.features[0].properties.headline,
+          "en-US-Wavenet-H"
         )
           .then(function (response) {
             console.log("Updated weather alert.");
@@ -106,7 +107,8 @@ app.post("/api/callhandler/create", (req, res) => {
     cupiUpdate(
       req.body.callhandler.label,
       req.body.greeting.label,
-      req.body.text
+      req.body.text,
+      req.body.voice
     ).then(function () {
       res.send(
         `Updated the following System Call Handler > ${req.body.callhandler.label} > ${req.body.greeting.label}`
@@ -116,7 +118,8 @@ app.post("/api/callhandler/create", (req, res) => {
     cupiNewCallHandler(
       req.body.callhandler.label,
       req.body.greeting.label,
-      req.body.text
+      req.body.text,
+      req.body.text.voice,
     ).then(function (result) {
       res.send(
         `Created the following System Call Handler > ${req.body.callhandler.label} > ${req.body.greeting.label}`
@@ -140,7 +143,7 @@ app.post(
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(twiml.toString());
     } else {
-      cupiUpdate(settings.greetingName, settings.greetingType, req.body.Body)
+      cupiUpdate(settings.greetingName, settings.greetingType, req.body.Body, "en-US-Wavenet-D")
         .then(function (response) {
           twiml.message(
             `Successfully updated System Call Handler > ${settings.greetingName} > ${settings.greetingType}!`
@@ -200,7 +203,7 @@ process.once("SIGHUP", function () {
   })();
 });
 
-function cupiUpdate(callhandler, greeting, text) {
+function cupiUpdate(callhandler, greeting, text, voice) {
   return new Promise(function (resolve, reject) {
     // Get Call Handler by name
     restModule
@@ -236,7 +239,7 @@ function cupiUpdate(callhandler, greeting, text) {
           })
           .then(function (result) {
             // Let's upload the WAV file from Google TTS
-            googleTTS(result.GreetingStreamFilesURI, text)
+            googleTTS(result.GreetingStreamFilesURI, text, voice)
               .then(function (result) {
                 resolve(result);
               })
@@ -271,7 +274,7 @@ function cupiUpdate(callhandler, greeting, text) {
   });
 }
 
-function cupiNewCallHandler(callhandler, greeting, text) {
+function cupiNewCallHandler(callhandler, greeting, text, voice) {
   return new Promise(function (resolve, reject) {
     // Get Call Handler Template
     restModule
@@ -322,7 +325,7 @@ function cupiNewCallHandler(callhandler, greeting, text) {
             reject(err);
           })
           .then(function (result) {
-            cupiUpdate(callhandler, greeting, text).then(function () {
+            cupiUpdate(callhandler, greeting, text, voice).then(function () {
               resolve(result);
             });
           });
@@ -330,7 +333,7 @@ function cupiNewCallHandler(callhandler, greeting, text) {
   });
 }
 
-function googleTTS(uri, text) {
+function googleTTS(uri, text, voice) {
   return new Promise(async function (resolve, reject) {
     try {
       // Creates a client
@@ -348,7 +351,7 @@ function googleTTS(uri, text) {
         },
         voice: {
           languageCode: "en-US",
-          name: "en-US-Wavenet-D",
+          name: voice.status,
         },
       };
 
