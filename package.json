@@ -1,11 +1,14 @@
 {
   "name": "cisco-unity-react-app",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "A Cisco Unity TTS application with a Node Express Backend",
   "author": {
     "name": "Jeremy Worden",
     "twitter": "@sieteunoseis",
     "url": "https://automate.builders"
+  },
+  "config": {
+    "imageRepo": "sieteunoseis/cisco-unity-react-app"
   },
   "license": "MIT",
   "scripts": {
@@ -13,20 +16,22 @@
     "server": "nodemon --signal SIGHUP server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "dev:server": "cd client && yarn build && cd .. && yarn start",
-    "start": "NODE_ENV=production pm2 start --name cisco-unity-tts server.js --watch"
+    "start": "pm2 start --name cisco-unity-tts server.js --watch",
+    "docker:build": "docker build --platform linux/amd64 -t $npm_package_config_imageRepo:$npm_package_version -t $npm_package_config_imageRepo:latest .",
+    "docker:push": "docker push $npm_package_config_imageRepo:$npm_package_version && docker push $npm_package_config_imageRepo:latest",
+    "docker:prune": "docker system prune -a"
   },
   "dependencies": {
-    "@google-cloud/text-to-speech": "^3.4.0",
-    "axios": "^0.25.0",
+    "@google-cloud/text-to-speech": "^4.0.3",
+    "axios": "^1.1.3",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "ngrok": "^4.3.0",
-    "opn": "^6.0.0",
     "twilio": "^3.73.0"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
-    "dotenv": "^14.3.0"
+    "dotenv": "^16.0.3"
   },
   "repository": {
     "type": "git",

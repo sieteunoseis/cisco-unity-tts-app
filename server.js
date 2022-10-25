@@ -8,11 +8,10 @@ const bodyParser = require("body-parser");
 const textToSpeech = require("@google-cloud/text-to-speech");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const ngrok = require("ngrok");
-const opn = require("opn");
 const axios = require("axios");
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 
 const settings = {
   cucip: process.env.IP || "10.10.20.18",
@@ -20,6 +19,7 @@ const settings = {
   cucpass: process.env.PASSWORD || "ciscopsdt",
   greetingType: "Alternate",
   greetingName: "Opening Greeting",
+  nwsPublicForecastZone: process.env.WEATHERZONE || "ORZ006",
 };
 
 app.use(bodyParser.json());
@@ -30,7 +30,7 @@ var weatherID = "";
 // Check the weather and update Call Handler if there is a new alert. Runs every 15 mins.
 setInterval(function () {
   axios({
-    url: "https://api.weather.gov/alerts/active/zone/TXC469",
+    url: "https://api.weather.gov/alerts/active/zone/" + nwsPublicForecastZone,
     method: "get",
   }).then(function (results) {
     if (results.data.features.length > 0) {
@@ -67,38 +67,36 @@ app.get("/api/test", (req, res) => {
 app.get("/api/callhandler/get", (req, res) => {
   // Get Call Handler by name
   restModule
-  .fetchRest(
-    settings.cucip,
-    settings.cucuser,
-    settings.cucpass,
-    "get",
-    "application/json",
-    "/vmrest/handlers/callhandlers"
-  )
-  .catch((err) => {
-    res
-      .status(404) // HTTP status 404: NotFound
-      .send("Not found");
-  })
-  .then(function (result) {
-    if (result) {
-      let returnNames = result["Callhandler"]
-        .filter(function (handler) {
+    .fetchRest(
+      settings.cucip,
+      settings.cucuser,
+      settings.cucpass,
+      "get",
+      "application/json",
+      "/vmrest/handlers/callhandlers"
+    )
+    .catch((err) => {
+      res
+        .status(404) // HTTP status 404: NotFound
+        .send("Not found");
+    })
+    .then(function (result) {
+      if (result) {
+        let returnNames = result.Callhandler.filter(function (handler) {
           return handler.IsPrimary == "false";
-        })
-        .map(function (names) {
+        }).map(function (names) {
           return names.DisplayName;
         });
-      let namesFromAPI = returnNames.map((name) => {
-        return {
-          label: name,
-          value: name.toLowerCase().replace(/\W/g, ""),
-          status: "existing",
-        };
-      });
-      res.send(namesFromAPI);
-    }
-  });
+        let namesFromAPI = returnNames.map((name) => {
+          return {
+            label: name,
+            value: name.toLowerCase().replace(/\W/g, ""),
+            status: "existing",
+          };
+        });
+        res.send(namesFromAPI);
+      }
+    });
 });
 
 // API Call to update call handler from values
@@ -119,7 +117,7 @@ app.post("/api/callhandler/create", (req, res) => {
       req.body.callhandler.label,
       req.body.greeting.label,
       req.body.text,
-      req.body.text.voice,
+      req.body.text.voice
     ).then(function (result) {
       res.send(
         `Created the following System Call Handler > ${req.body.callhandler.label} > ${req.body.greeting.label}`
@@ -143,7 +141,12 @@ app.post(
       res.writeHead(200, { "Content-Type": "text/xml" });
       res.end(twiml.toString());
     } else {
-      cupiUpdate(settings.greetingName, settings.greetingType, req.body.Body, "en-US-Wavenet-D")
+      cupiUpdate(
+        settings.greetingName,
+        settings.greetingType,
+        req.body.Body,
+        "en-US-Wavenet-D"
+      )
         .then(function (response) {
           twiml.message(
             `Successfully updated System Call Handler > ${settings.greetingName} > ${settings.greetingType}!`
@@ -171,21 +174,20 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
-} else {
+}
+
+if (process.env.NGROK) {
   // In development mode...let's start NGROK status page and open status page
   (async function () {
     await ngrok.connect({
       proto: "http", // http|tcp|tls, defaults to http
       addr: port, // port or network address, defaults to 80
-      subdomain: process.env.NGROK_SUBDOMAIN, // reserved tunnel name
       authtoken: process.env.NGROK_AUTH_TOKEN, // your authtoken from ngrok.com
       region: "us", // one of ngrok regions (us, eu, au, ap), defaults to us
       onStatusChange: (status) => {}, // 'closed' - connection is lost, 'connected' - reconnected
       onLogEvent: (data) => {}, // returns stdout messages from ngrok process
     });
   })();
-
-  opn("http://127.0.0.1:4040/status");
 }
 
 http.createServer(app).listen(port, () => {

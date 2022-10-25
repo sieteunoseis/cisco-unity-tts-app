@@ -29,6 +29,7 @@ yarn
 ### Development Mode
 
 To start the server and client at the same time (from the root of the project).
+
 ```
 yarn dev
 ```
@@ -39,7 +40,7 @@ http://localhost:4040/status
 
 ### Production Mode
 
-Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:5000. Note: PM2 needs to be installed.
+Running the production build on localhost. This will create a production build, then Node will serve the app on http://localhost:8000. Note: PM2 needs to be installed.
 
 ```
 NODE_ENV=production yarn dev:server
@@ -50,7 +51,7 @@ NODE_ENV=production yarn dev:server
 The key to using an Express backend with a project created with `create-react-app` is on using a **proxy**. We have a _proxy_ entry in `client/package.json`. You may need to update this depending on your enviroment.
 
 ```
-"proxy": "http://localhost:5000/"
+"proxy": "http://localhost:8000/"
 ```
 
 [Sample NGINX config](https://github.com/sieteunoseis/cisco-unity-tts-app/blob/master/nginx-sample.txt)
@@ -63,7 +64,7 @@ This tells Webpack development server to proxy our API requests to our API serve
 2. Make sure that [billing](https://console.cloud.google.com/billing?project=_) is enabled for your project.
 3. Enable the [Text-to-Speech API](https://console.cloud.google.com/flows/enableapi?apiid=texttospeech.googleapis.com).
 4. Create a [Service Account](https://console.cloud.google.com/apis/credentials?project=_).
-5. Download [key](https://console.cloud.google.com/iam-admin/serviceaccounts). Select Project created in step 1, then Actions > Create Key. 
+5. Download [key](https://console.cloud.google.com/iam-admin/serviceaccounts). Select Project created in step 1, then Actions > Create Key.
 6. Using service account key, create enviromental variable. export GOOGLE_APPLICATION_CREDENTIALS="[PATH]/[FILE_NAME].json"
 
 ## Ngrok

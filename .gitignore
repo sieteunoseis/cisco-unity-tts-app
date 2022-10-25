@@ -103,3 +103,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Google TTS Auth file
+google-text-to-speech-auth.json

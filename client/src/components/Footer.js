@@ -15,7 +15,7 @@ const Footer = () => {
                 <a href="https://www.youtube.com/JeremyWorden" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="youtube" className="mr-3"/></a>
                 <a href="https://www.linkedin.com/in/jeremyworden/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="linkedin" className="mr-3"/></a>
                 <a href="https://www.instagram.com/sieteunoseis/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="instagram" className="mr-3"/></a>
-                <a href="https://www.buymeacoffee.com/automatebldrs" rel="noopener noreferrer" target="_blank"><MDBIcon far icon="coffee-togo" className="mr-3"/></a>
+                <a href="https://www.buymeacoffee.com/automatebldrs" rel="noopener noreferrer" target="_blank"><MDBIcon fa icon="mug-hot" className="mr-3"/></a>
                 <a href="https://github.com/sieteunoseis/" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="github" className="mr-3"/></a>
                 <a href="https://www.patreon.com/join/sieteunoseis/checkout" rel="noopener noreferrer" target="_blank"><MDBIcon fab icon="patreon" className="mr-3"/></a>
             </div>

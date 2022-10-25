@@ -1,5 +1,4 @@
-// If using Self-Signed CERT on Endpoints do this...
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+require("dotenv").config();
 const axios = require("axios");
 
 module.exports = {
