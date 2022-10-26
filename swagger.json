@@ -1,0 +1,189 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Cisco Unity TTS Application",
+    "description": "A Cisco Unity TTS application with a Node Express Backend",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Call Handlers",
+      "description": "API for adding/updating Call Handlers"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/callhandler/get": {
+      "get": {
+        "tags": ["Call Handlers"],
+        "summary": "Get all call handlers in system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/callHandlers"
+            }
+          }
+        }
+      }
+    },
+    "/api/callhandler/create": {
+      "post": {
+        "tags": ["Call Handlers"],
+        "description": "API Call to update/add call handler from values",
+        "parameters": [
+          {
+            "name": "Call Handler",
+            "in": "body",
+            "description": "Call Handler that we want to create/update",
+            "schema": {
+              "$ref": "#/definitions/addCallHandler"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/createResponse"
+          }
+        }
+      }
+    },
+    "/api/sms/{callHandlerName}/{greetingName}": {
+      "post": {
+        "tags": ["Call Handlers"],
+        "description": "API Call to update/add call handler from values",
+        "parameters": [
+          {
+            "name": "callHandlerName",
+            "in": "path",
+            "description": "Call Handler that we want to update",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "greetingName",
+            "in": "path",
+            "description": "Greeting that we want to update",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Text",
+            "in": "body",
+            "description": "Text that we want to convert to speech.",
+            "schema": {
+              "$ref": "#/definitions/smsBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/updateResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "callHandler": {
+      "required": ["label", "value", "status"],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "addCallHandler": {
+      "required": ["callhandler", "greeting", "voice", "text"],
+      "properties": {
+        "callhandler": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            }
+          }
+        },
+        "greeting": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            }
+          }
+        },
+        "voice": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            }
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "smsBody": {
+      "required": ["Body", "from", "to"],
+      "properties": {
+        "Body": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      }
+    },
+    "callHandlers": {
+      "type": "array",
+      "$ref": "#/definitions/callHandler"
+    }
+  },
+  "responses": {
+    "createResponse": {
+      "description": "Response that Call Handler has been successfully updated or created."
+    },
+    "updateResponse": {
+      "description": "Response that Call Handler has been successfully updated."
+    }
+  }
+}

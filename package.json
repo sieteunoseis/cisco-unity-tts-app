@@ -1,6 +1,6 @@
 {
   "name": "cisco-unity-react-app",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "A Cisco Unity TTS application with a Node Express Backend",
   "author": {
     "name": "Jeremy Worden",
@@ -26,6 +26,7 @@
     "axios": "^1.1.3",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
+    "swagger-ui-express": "^4.5.0",
     "twilio": "^3.73.0"
   },
   "devDependencies": {

@@ -8,8 +8,10 @@ const bodyParser = require("body-parser");
 const textToSpeech = require("@google-cloud/text-to-speech");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 const axios = require("axios");
-
 const app = express();
+const swaggerUi = require("swagger-ui-express"),
+  swaggerDocument = require("./swagger.json");
+
 const port = process.env.PORT || 8000;
 
 const settings = {
@@ -20,6 +22,8 @@ const settings = {
   greetingName: "Opening Greeting",
   nwsPublicForecastZone: process.env.WEATHERZONE || "ORZ006",
 };
+
+const greetingTypes = ['Alternate', 'Busy', 'Error', 'Internal','Closed','Standard','Holiday'];
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,6 +62,9 @@ setInterval(function () {
     }
   });
 }, 900000);
+
+// Swagger documenation
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Test API Call
 app.get("/api/test", (req, res) => {
@@ -100,7 +107,7 @@ app.get("/api/callhandler/get", (req, res) => {
     });
 });
 
-// API Call to update call handler from values
+// API Call to update/add call handler from values
 app.post("/api/callhandler/create", (req, res) => {
   if (req.body.callhandler.status == "existing") {
     cupiUpdate(
@@ -110,7 +117,7 @@ app.post("/api/callhandler/create", (req, res) => {
       req.body.voice
     ).then(function () {
       res.send(
-        `Updated the following System Call Handler > ${req.body.callhandler.label} > ${req.body.greeting.label}`
+        `Updated the following Call Handler: (${req.body.callhandler.label}/${req.body.greeting.label})`
       );
     });
   } else {
@@ -118,10 +125,10 @@ app.post("/api/callhandler/create", (req, res) => {
       req.body.callhandler.label,
       req.body.greeting.label,
       req.body.text,
-      req.body.text.voice
+      req.body.voice
     ).then(function (result) {
       res.send(
-        `Created the following System Call Handler > ${req.body.callhandler.label} > ${req.body.greeting.label}`
+        `Created the following System Call Handler: (${req.body.callhandler.label}/${req.body.greeting.label})`
       );
     });
   }
@@ -134,6 +141,9 @@ app.param("callhandler", function (req, res, next, callhandler) {
 });
 
 app.param("greeting", function (req, res, next, greeting) {
+  if (greeting === "Closed") {
+    greeting = "Off Hours";
+  }
   const modified = greeting.toLowerCase();
   req.greeting = modified;
   next();
@@ -147,12 +157,7 @@ app.post("/api/sms/:callhandler/:greeting", (req, res) => {
     res.writeHead(200, { "Content-Type": "text/xml" });
     res.end(twiml.toString());
   } else {
-    cupiUpdate(
-      req.callhandler,
-      req.greeting,
-      req.body.Body,
-      "en-US-Wavenet-D"
-    )
+    cupiUpdate(req.callhandler, req.greeting, req.body.Body, "en-US-Wavenet-D")
       .then(function (response) {
         twiml.message(
           `Successfully updated Call Handler/Greeting: (${req.callhandler}/${req.greeting})!`
@@ -188,6 +193,8 @@ http.createServer(app).listen(port, () => {
 function cupiUpdate(callhandler, greeting, text, voice) {
   return new Promise(function (resolve, reject) {
     // Get Call Handler by name
+    var callHandlerLower = callhandler.toLowerCase();
+
     restModule
       .fetchRest(
         settings.cucip,
@@ -203,10 +210,12 @@ function cupiUpdate(callhandler, greeting, text, voice) {
       .then(function (result) {
         // Let's find the greeting we want to upday
         var findMe = result.Callhandler.find(
-          (element) => element.DisplayName === callhandler
+          (element) => element.DisplayName.toLowerCase() === callHandlerLower
         );
 
-        // Let's get the Alternate Greeting URI
+        let findGreeting = greetingTypes.findIndex(item => greeting.toLowerCase() === item.toLowerCase());
+
+        // Let's get the Greeting URI
         restModule
           .fetchRest(
             settings.cucip,
@@ -214,7 +223,7 @@ function cupiUpdate(callhandler, greeting, text, voice) {
             settings.cucpass,
             "get",
             "application/json",
-            findMe.GreetingsURI + "/" + greeting + "/"
+            findMe.GreetingsURI + "/" + greetingTypes[findGreeting] + "/"
           )
           .catch((err) => {
             reject(err);
@@ -243,7 +252,7 @@ function cupiUpdate(callhandler, greeting, text, voice) {
             settings.cucpass,
             "put",
             "application/json",
-            findMe.GreetingsURI + "/" + greeting + "/",
+            findMe.GreetingsURI + "/" + greetingTypes[findGreeting] + "/",
             data
           )
           .catch((err) => {
