@@ -7,7 +7,6 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const textToSpeech = require("@google-cloud/text-to-speech");
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
-const ngrok = require("ngrok");
 const axios = require("axios");
 
 const app = express();
@@ -30,7 +29,7 @@ var weatherID = "";
 // Check the weather and update Call Handler if there is a new alert. Runs every 15 mins.
 setInterval(function () {
   axios({
-    url: "https://api.weather.gov/alerts/active/zone/" + nwsPublicForecastZone,
+    url: "https://api.weather.gov/alerts/active/zone/" + settings.nwsPublicForecastZone,
     method: "get",
   }).then(function (results) {
     if (results.data.features.length > 0) {
@@ -176,33 +175,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-if (process.env.NGROK) {
-  // In development mode...let's start NGROK status page and open status page
-  (async function () {
-    await ngrok.connect({
-      proto: "http", // http|tcp|tls, defaults to http
-      addr: port, // port or network address, defaults to 80
-      authtoken: process.env.NGROK_AUTH_TOKEN, // your authtoken from ngrok.com
-      region: "us", // one of ngrok regions (us, eu, au, ap), defaults to us
-      onStatusChange: (status) => {}, // 'closed' - connection is lost, 'connected' - reconnected
-      onLogEvent: (data) => {}, // returns stdout messages from ngrok process
-    });
-  })();
-}
-
 http.createServer(app).listen(port, () => {
   console.log("Express server listening on port " + port);
-});
-
-// Disconnect Ngrok
-process.once("SIGHUP", function () {
-  (async function () {
-    try {
-      await ngrok.kill();
-    } catch (error) {
-      console.log(error.message);
-    }
-  })();
 });
 
 function cupiUpdate(callhandler, greeting, text, voice) {
