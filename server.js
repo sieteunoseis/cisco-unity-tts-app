@@ -29,7 +29,9 @@ var weatherID = "";
 // Check the weather and update Call Handler if there is a new alert. Runs every 15 mins.
 setInterval(function () {
   axios({
-    url: "https://api.weather.gov/alerts/active/zone/" + settings.nwsPublicForecastZone,
+    url:
+      "https://api.weather.gov/alerts/active/zone/" +
+      settings.nwsPublicForecastZone,
     method: "get",
   }).then(function (results) {
     if (results.data.features.length > 0) {
@@ -125,45 +127,49 @@ app.post("/api/callhandler/create", (req, res) => {
   }
 });
 
-// SMS API Call
-app.post(
-  "/api/callhandler/" +
-    settings.greetingName.replace(" ", "").toLowerCase() +
-    "/" +
-    settings.greetingType.toLowerCase() +
-    "/sms",
-  (req, res) => {
-    const twiml = new MessagingResponse();
-    if (req.body.Body.toLowerCase() == "help?") {
-      let smsString = `Service will update the System Call Handler > ${settings.greetingName} > ${settings.greetingType} in Cisco Unity with text to speech that you send via SMS.`;
-      twiml.message(smsString);
-      res.writeHead(200, { "Content-Type": "text/xml" });
-      res.end(twiml.toString());
-    } else {
-      cupiUpdate(
-        settings.greetingName,
-        settings.greetingType,
-        req.body.Body,
-        "en-US-Wavenet-D"
-      )
-        .then(function (response) {
-          twiml.message(
-            `Successfully updated System Call Handler > ${settings.greetingName} > ${settings.greetingType}!`
-          );
-          res.writeHead(200, { "Content-Type": "text/xml" });
-          res.end(twiml.toString());
-        })
-        .catch(function (error) {
-          console.log("Failed!", error);
-          twiml.message(
-            `Failed to update System Call Handler > ${settings.greetingName} > ${settings.greetingType}!`
-          );
-          res.writeHead(200, { "Content-Type": "text/xml" });
-          res.end(twiml.toString());
-        });
-    }
+app.param("callhandler", function (req, res, next, callhandler) {
+  const modified = callhandler.toLowerCase();
+  req.callhandler = modified;
+  next();
+});
+
+app.param("greeting", function (req, res, next, greeting) {
+  const modified = greeting.toLowerCase();
+  req.greeting = modified;
+  next();
+});
+
+app.post("/api/sms/:callhandler/:greeting", (req, res) => {
+  const twiml = new MessagingResponse();
+  if (req.body.Body.toLowerCase() == "help?") {
+    let smsString = `Service will update the Call Handler/Greeting: (${req.callhandler}/${req.greeting}) in Cisco Unity with text to speech that you send via SMS.`;
+    twiml.message(smsString);
+    res.writeHead(200, { "Content-Type": "text/xml" });
+    res.end(twiml.toString());
+  } else {
+    cupiUpdate(
+      req.callhandler,
+      req.greeting,
+      req.body.Body,
+      "en-US-Wavenet-D"
+    )
+      .then(function (response) {
+        twiml.message(
+          `Successfully updated Call Handler/Greeting: (${req.callhandler}/${req.greeting})!`
+        );
+        res.writeHead(200, { "Content-Type": "text/xml" });
+        res.end(twiml.toString());
+      })
+      .catch(function (error) {
+        console.log("Failed!", error);
+        twiml.message(
+          `Failed to update updated Call Handler/Greeting: (${req.callhandler}/${req.greeting})!`
+        );
+        res.writeHead(200, { "Content-Type": "text/xml" });
+        res.end(twiml.toString());
+      });
   }
-);
+});
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
